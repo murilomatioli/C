@@ -32,7 +32,64 @@ typedef struct
     contaCorrente contas[5];
 } banco;
 
+int strToInt(char *string){
+    int i, result = 0;
+    char txtNumber;
+    int tam = strlen(string);
+    for(i = 0; i < tam;i++){
+        txtNumber = string[i];
+
+        switch (txtNumber){
+            case '0':
+                result*=10;
+                result+=0;
+            break;
+            case '1':
+                result*=10;
+                result+=1;
+            break;
+            case '2':
+                result*=10;
+                result+=2;
+            break;
+            case '3':
+                result*=10;
+                result+=3;
+            break;
+            case '4':
+                result*=10;
+                result+=4;
+            break;
+            case '5':
+                result*=10;
+                result+=5;
+            break;
+            case '6':
+                result*=10;
+                result+=6;
+            break;
+            case '7':
+                result*=10;
+                result+=7;
+            break;
+            case '8':
+                result*=10;
+                result+=8;
+            break;
+            case '9':
+                result*=10;
+                result+=9;
+            break;
+            default:
+                break;
+        }
+    }
+    return result;
+}
+
+
 void cadastrarCliente(banco *clientes,int *PnumClientes){
+    FILE *Pdados;
     char nome[50], endereco[100];
     int idade;
     *PnumClientes +=1;
@@ -52,6 +109,8 @@ void cadastrarCliente(banco *clientes,int *PnumClientes){
     clientes[index].contas[0].saldo = 633.50;
     clientes[index].contas[0].idConta = 1;
 
+    fopen(Pdados, "w");
+    fclose(Pdados);
 }
 void exibirCliente(banco *clientes, int *PnumClientes) {
     int localId = *PnumClientes - 1;
@@ -65,7 +124,7 @@ void exibirCliente(banco *clientes, int *PnumClientes) {
     printf("Endereco cliente: %s\n", localClientes.endereco);
 
     // Exibir informações da primeira conta associada ao cliente
-    printf("\n--- Conta 1 ---\n");
+    printf("\n--- Conta %d ---\n", localClientes.id);
     printf("Id da conta: %d\n", localClientes.contas[0].id);
     printf("Tempo de existência: %d meses\n", localClientes.contas[0].tempo);
     printf("Saldo da conta: %.2f\n", localClientes.contas[0].saldo);
@@ -75,13 +134,24 @@ void exibirCliente(banco *clientes, int *PnumClientes) {
 
 int main()
 {
+    FILE *Pdados;
+    Pdados = fopen("dados.txt", "w");
+    fputs("Nome   Idade   Endereço", Pdados);
+
+    char stringteste[] = "10783";
+    int *Pstring = &stringteste[0];
+    int convertido = strToInt(Pstring);
+
+    printf("Convertido: %d", convertido);
+
+    fclose(Pdados);
     int numClientes = 0;
     char op[2];
     int *PnumClientes = &numClientes;
     banco clientes[1000];
     banco *Pclientes = &clientes[0];
     int encerrar = 0;
-    // 
+    
     while(encerrar != -1){
         scanf("%s", op);
         if(strcmp("cadastrar", op) == 0){
